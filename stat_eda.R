@@ -103,19 +103,19 @@ lm_df <- vector(length = 158)
 for(i in 6:12) {       # for-loop over columns
   lm_df <- cbind(lm_df, as.numeric(quantcut(df15[ , i], q=2)))
 }
-lm_df <- data.frame(lm_df[, c(2:8)]) -1
+lm_df <- data.frame(lm_df[, c(2:8)]) - 1
 colnames(lm_df) <- names(df15)[6:12]
-pure_happiness <- df15$Happiness.Score - df15$Dystopia.Residual
+pure_happiness <- df15$Happiness.Score
 lm_df <- cbind(pure_happiness, lm_df)
 model <- lm(pure_happiness ~ Economy..GDP.per.Capita. + Family + Health..Life.Expectancy. +
-              Freedom + Trust..Government.Corruption. + Generosity + 0, data=lm_df)
+              Freedom + Trust..Government.Corruption. + Generosity + Dystopia.Residual + 0, data=lm_df)
 param_to_coef <- model$coefficients
 pvals_adjusted <- p.adjust(summary(model)$coefficients[,4], method="BH")
 
 #Building a regression confidence interval
-par_vec <- sample(c(0:1), 6, replace=T)
+par_vec <- sample(c(0:1), 7, replace=T)
 par_vec <- transpose(data.frame(par_vec))
-colnames(par_vec) <- names(df15)[6:11]
+colnames(par_vec) <- names(df15)[6:12]
 ci <- predict(model, newdata = par_vec, interval = 'confidence', level=0.95)
 avg <- ci[1]
 half <- (ci[3]-ci[2])/2
