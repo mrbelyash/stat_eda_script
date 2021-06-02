@@ -47,7 +47,7 @@ ggsave("C:/Users/daniil/Downloads/happiness_dist.png")
 # Plotting distributions with SW normality test
 other_factors <- df15[c(4:12)]
 i <- 0
-plts <- vector() # Äà, ýòî ïëîõî
+plts <- vector() # Ã„Ã , Ã½Ã²Ã® Ã¯Ã«Ã®ÃµÃ®
 pvals_sw <- vector()
 colors <- c("darkslateblue", "blue", "black", "green", "navy", "darkcyan", "red", "darkorange4", "blue")
 hue_cols <- c("blueviolet", "lightblue", "gray", "darkolivegreen1", "aquamarine", "coral2", "darkorange1", "darkorange1", "lightblue")
@@ -108,7 +108,7 @@ colnames(lm_df) <- names(df15)[6:12]
 pure_happiness <- df15$Happiness.Score - df15$Dystopia.Residual
 lm_df <- cbind(pure_happiness, lm_df)
 model <- lm(pure_happiness ~ Economy..GDP.per.Capita. + Family + Health..Life.Expectancy. +
-              Freedom + Trust..Government.Corruption. + Generosity + 0, data=lm_df, )
+              Freedom + Trust..Government.Corruption. + Generosity + 0, data=lm_df)
 param_to_coef <- model$coefficients
 pvals_adjusted <- p.adjust(summary(model)$coefficients[,4], method="BH")
 
