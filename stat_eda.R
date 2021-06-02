@@ -47,7 +47,7 @@ ggsave("C:/Users/daniil/Downloads/happiness_dist.png")
 # Plotting distributions with SW normality test
 other_factors <- df15[c(4:12)]
 i <- 0
-plts <- vector() # Äà, ýòî ïëîõî
+plts <- vector() # Да, это плохо
 pvals_sw <- vector()
 colors <- c("darkslateblue", "blue", "black", "green", "navy", "darkcyan", "red", "darkorange4", "blue")
 hue_cols <- c("blueviolet", "lightblue", "gray", "darkolivegreen1", "aquamarine", "coral2", "darkorange1", "darkorange1", "lightblue")
@@ -101,9 +101,9 @@ w_res <- wilcox.test(w_df$y2015, w_df$y2016, paired=T)
 # Making a multiple linear regression model to see which of the parameters prevail
 lm_df <- vector(length = 158)
 for(i in 6:12) {       # for-loop over columns
-  lm_df <- cbind(lm_df, as.numeric(quantcut(df15[ , i])))
+  lm_df <- cbind(lm_df, as.numeric(quantcut(df15[ , i], q=2)))
 }
-lm_df <- data.frame(lm_df[, c(2:8)])
+lm_df <- data.frame(lm_df[, c(2:8)]) -1
 colnames(lm_df) <- names(df15)[6:12]
 pure_happiness <- df15$Happiness.Score - df15$Dystopia.Residual
 lm_df <- cbind(pure_happiness, lm_df)
@@ -113,7 +113,7 @@ param_to_coef <- model$coefficients
 pvals_adjusted <- p.adjust(summary(model)$coefficients[,4], method="BH")
 
 #Building a regression confidence interval
-par_vec <- sample(c(1:4), 6, replace=T)
+par_vec <- sample(c(0:1), 6, replace=T)
 par_vec <- transpose(data.frame(par_vec))
 colnames(par_vec) <- names(df15)[6:11]
 ci <- predict(model, newdata = par_vec, interval = 'confidence', level=0.95)
